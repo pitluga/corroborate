@@ -14,3 +14,11 @@
 (defn is-required
   ([] (is-required "is required"))
   ([message] #(if (blank? (%2 %1)) message)))
+
+(defn is-formatted
+  ([pattern] (is-formatted pattern "is improperly formatted"))
+  ([pattern message] #(if-not (re-matches pattern (%2 %1)) message)))
+
+(defn is-included-in
+  ([accepted-values] (is-included-in accepted-values "is not included in the list"))
+  ([accepted-values message] #(if-not (contains? accepted-values (%2 %1)) message)))
