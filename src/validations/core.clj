@@ -5,8 +5,10 @@
   (loop [[field validation & more] fields-with-validations errors {}]
     (if (nil? field)
       errors
-      (let [error (validation (field topic))]
-        (recur more (if (blank? error) errors (conj errors [field [error]])))))))
+      (let [error (validation (field topic))
+            field-errors (conj (field errors) error)]
+        (recur more (if (blank? error) errors (conj errors [field field-errors])))))))
 
-(defn is-required [field]
-  (if (blank? field) "is required"))
+(defn is-required
+  ([] (is-required "is required"))
+  ([message] #(if (blank? %) message)))

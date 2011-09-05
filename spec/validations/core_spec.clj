@@ -9,17 +9,23 @@
       (should= {:a ["invalid"]} errors)))
 
   (it "can validate more than one field"
-    (let [example {}
-          errors (validate {} :a is-required :b is-required)]
-      (should= {:a ["is required"] :b ["is required"] } errors))))
+    (let [errors (validate {} :a (is-required) :b (is-required))]
+      (should= {:a ["is required"] :b ["is required"] } errors)))
+
+  (it "run two validations on a given field"
+    (let [errors (validate {} :a (is-required) :a (is-required))]
+      (should= {:a ["is required" "is required"] } errors))))
 
 (describe "is-required"
   (it "returns a validation error if the field is missing"
-    (let [example {}
-          errors (validate example :field is-required)]
+    (let [errors (validate {}:field (is-required))]
       (should= {:field ["is required"]} errors)))
 
   (it "returns nothing if the field is provided"
     (let [example {:field "something"}
-          errors (validate example :field is-required)]
-      (should= {} errors))))
+          errors (validate example :field (is-required))]
+      (should= {} errors)))
+
+  (it "allows the message to be overriden"
+    (let [errors (validate {} :field (is-required "not there"))]
+      (should= {:field ["not there"]} errors))))
