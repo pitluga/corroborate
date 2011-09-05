@@ -5,7 +5,7 @@
 (describe "validate"
   (it "can take an anonymous validation"
     (let [simple {:a "hello"}
-          errors (validate simple :a #(if (not (= "goodbye" %)) "invalid"))]
+          errors (validate simple :a #(if (not (= "goodbye" (%2 %1))) "invalid"))]
       (should= {:a ["invalid"]} errors)))
 
   (it "can validate more than one field"

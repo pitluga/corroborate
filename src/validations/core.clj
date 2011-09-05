@@ -2,7 +2,7 @@
   (:use [clojure.contrib.string :only [blank?]]))
 
 (defn- validate-field [topic field validations errors]
-  (let [field-errors (remove nil? (map #(% (field topic)) (flatten [validations])))]
+  (let [field-errors (remove nil? (map #(% topic field) (flatten [validations])))]
     (if (empty? field-errors) errors (conj errors [field field-errors]))))
 
 (defn validate [topic & fields-with-validations]
@@ -13,4 +13,4 @@
 
 (defn is-required
   ([] (is-required "is required"))
-  ([message] #(if (blank? %) message)))
+  ([message] #(if (blank? (%2 %1)) message)))
