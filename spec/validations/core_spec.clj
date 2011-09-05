@@ -13,12 +13,12 @@
       (should= {:a ["is required"] :b ["is required"] } errors)))
 
   (it "run two validations on a given field"
-    (let [errors (validate {} :a (is-required) :a (is-required))]
+    (let [errors (validate {} :a [(is-required) (is-required)])]
       (should= {:a ["is required" "is required"] } errors))))
 
 (describe "is-required"
   (it "returns a validation error if the field is missing"
-    (let [errors (validate {}:field (is-required))]
+    (let [errors (validate {} :field (is-required))]
       (should= {:field ["is required"]} errors)))
 
   (it "returns nothing if the field is provided"

@@ -1,13 +1,15 @@
 (ns validations.core
   (:use [clojure.contrib.string :only [blank?]]))
 
+(defn- validate-field [topic field validations errors]
+  (let [field-errors (remove nil? (map #(% (field topic)) (flatten [validations])))]
+    (if (empty? field-errors) errors (conj errors [field field-errors]))))
+
 (defn validate [topic & fields-with-validations]
-  (loop [[field validation & more] fields-with-validations errors {}]
+  (loop [[field validations & more] fields-with-validations errors {}]
     (if (nil? field)
       errors
-      (let [error (validation (field topic))
-            field-errors (conj (field errors) error)]
-        (recur more (if (blank? error) errors (conj errors [field field-errors])))))))
+      (recur more (validate-field topic field validations errors)))))
 
 (defn is-required
   ([] (is-required "is required"))
