@@ -13,7 +13,12 @@
 
 (defn is-required
   ([] (is-required "is required"))
-  ([message] #(if (blank? (%2 %1)) message)))
+  ([message]
+    #(let [value (%2 %1)]
+      (cond
+        (string? value) (if (blank? value) message)
+        (coll? value) (if (empty? value) message)
+        :else (if (nil? value) message)))))
 
 (defn is-formatted
   ([pattern] (is-formatted pattern "is improperly formatted"))

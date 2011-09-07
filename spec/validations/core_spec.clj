@@ -26,6 +26,21 @@
           errors (validate example :field (is-required))]
       (should= {} errors)))
 
+  (it "returns nothing if the field is a number"
+    (let [example {:field 1}
+          errors (validate example :field (is-required))]
+      (should= {} errors)))
+
+  (it "returns nothing if the field is a seq with stuff in it"
+    (let [example {:field ["stuff"]}
+          errors (validate example :field (is-required))]
+      (should= {} errors)))
+
+  (it "returns an error if the seq is empty"
+    (let [example {:field []}
+          errors (validate example :field (is-required))]
+      (should= {:field ["is required"]} errors)))
+
   (it "allows the message to be overriden"
     (let [errors (validate {} :field (is-required "not there"))]
       (should= {:field ["not there"]} errors))))
