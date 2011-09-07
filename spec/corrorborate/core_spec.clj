@@ -1,6 +1,6 @@
-(ns validations.core-spec
+(ns corroborate.core-spec
   (:use [speclj.core]
-        [validations.core]))
+        [corroborate.core]))
 
 (describe "validate"
   (it "can take an anonymous validation"

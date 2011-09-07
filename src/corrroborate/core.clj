@@ -1,4 +1,4 @@
-(ns validations.core
+(ns corroborate.core
   (:use [clojure.contrib.string :only [blank?]]))
 
 (defn- validate-field [topic field validations errors]
