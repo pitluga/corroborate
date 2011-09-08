@@ -70,3 +70,16 @@
   (it "allows overriding the message"
     (let [errors (validate {:f "1"} :f (is-included-in #{"a" "b" "c"} "is not a letter"))]
       (should= {:f ["is not a letter"]} errors))))
+
+(describe "is-excluded-from"
+  (it "returns nothing when the value is not in the set"
+    (let [errors (validate {:f "x"} :f (is-excluded-from #{"a" "b" "c"}))]
+      (should= {} errors)))
+
+  (it "returns an error when the value is in the set"
+    (let [errors (validate {:f "a"} :f (is-excluded-from #{"a" "b" "c"}))]
+      (should= {:f ["is reserved"]} errors)))
+
+  (it "allows overriding the message"
+    (let [errors (validate {:f "a"} :f (is-excluded-from #{"a" "b" "c"} "cannot be a, b, or c"))]
+      (should= {:f ["cannot be a, b, or c"]} errors))))

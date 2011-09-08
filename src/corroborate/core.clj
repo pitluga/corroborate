@@ -27,3 +27,7 @@
 (defn is-included-in
   ([accepted-values] (is-included-in accepted-values "is not included in the list"))
   ([accepted-values message] #(if-not (contains? accepted-values (%2 %1)) message)))
+
+(defn is-excluded-from
+  ([excluded-values] (is-excluded-from excluded-values "is reserved"))
+  ([excluded-values message] #(if (contains? excluded-values (%2 %1)) message)))
