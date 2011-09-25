@@ -2,6 +2,18 @@
 
 A dead-simple validations library for Clojure.
 
+## Installation:
+
+Leiningen:
+[corroborate "0.1.0"]
+
+Maven:
+<dependency>
+  <groupId>corroborate</groupId>
+  <artifactId>corroborate</artifactId>
+  <version>0.1.0</version>
+</dependency>
+
 ## Usage
 
 (ns people

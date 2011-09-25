@@ -1,4 +1,4 @@
-(defproject corroborate "0.0.1-SNAPSHOT"
+(defproject corroborate "0.1.0"
   :description "dead-simple validations"
   :dependencies [[org.clojure/clojure "1.2.1"]
                  [org.clojure/clojure-contrib "1.2.0"]]
