@@ -8,7 +8,7 @@ Leiningen:
 [corroborate "0.1.0"]
 
 Maven:
-```
+```xml
 <dependency>
   <groupId>corroborate</groupId>
   <artifactId>corroborate</artifactId>
