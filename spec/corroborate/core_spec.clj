@@ -16,6 +16,22 @@
     (let [errors (validate {} :a [(is-required) (is-required)])]
       (should= {:a ["is required" "is required"] } errors))))
 
+(describe "validate-staged"
+  (let [stage1 (fn [model] (validate model :f (is-required)))
+        stage2 (fn [model] (validate model :f (is-numeric)))]
+
+    (it "returns errors from the first stage that fails"
+      (let [errors (validate-staged {:f nil} stage1 stage2)]
+        (should= {:f ["is required"]} errors)))
+
+    (it "will keep running stages until a failure is found"
+      (let [errors (validate-staged {:f "b"} stage1 stage2)]
+        (should= {:f ["is not a number"]} errors)))
+
+    (it "return nothing if all stages pass"
+      (let [errors (validate-staged {:f 1} stage1 stage2)]
+        (should= {} errors)))))
+
 (describe "is-required"
   (it "returns a validation error if the field is missing"
     (let [errors (validate {} :field (is-required))]

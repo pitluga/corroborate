@@ -11,6 +11,13 @@
       errors
       (recur more (validate-field topic field validations errors)))))
 
+(defn validate-staged [model & validators]
+  (loop [[validator & more] validators]
+    (if (nil? validator)
+      {}
+      (let [errors (validator model)]
+        (if (empty? errors) (recur more) errors)))))
+
 (defn is-required
   ([] (is-required "is required"))
   ([message]
