@@ -38,3 +38,11 @@
 (defn is-excluded-from
   ([excluded-values] (is-excluded-from excluded-values "is reserved"))
   ([excluded-values message] #(if (contains? excluded-values (%2 %1)) message)))
+
+(defn is-confirmed-by
+  ([field] (is-confirmed-by field "does not match"))
+  ([field message] #(if-not (= (%2 %1) (field %1)) message)))
+
+(defn is-numeric
+  ([] (is-numeric "is not a number"))
+  ([message] #(if-not (number? (%2 %1)) message)))

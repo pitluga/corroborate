@@ -99,3 +99,30 @@
   (it "allows overriding the message"
     (let [errors (validate {:f "a"} :f (is-excluded-from #{"a" "b" "c"} "cannot be a, b, or c"))]
       (should= {:f ["cannot be a, b, or c"]} errors))))
+
+(describe "is-confirmed-by"
+  (it "returns an error when the confirmation does not match"
+    (let [errors (validate {:pwd "p" :pwdc "not p"} :pwd (is-confirmed-by :pwdc))]
+      (should= {:pwd ["does not match"]} errors))) 
+
+  (it "returns nothing when confirmation matches"
+    (let [errors (validate {:pwd "p" :pwdc "p"} :pwd (is-confirmed-by :pwdc))]
+      (should= {} errors))) 
+
+  (it "allows overriding the message"
+    (let [errors (validate {:pwd "p" :pwdc "not p"} :pwd (is-confirmed-by :pwdc "bad match"))]
+      (should= {:pwd ["bad match"]} errors))))
+
+(describe "is-numeric"
+  (it "returns an error when the value is not a number"
+    (let [errors (validate {:f "a"} :f (is-numeric))]
+      (should= {:f ["is not a number"]} errors))) 
+
+  (it "returns nothing when the value is a number"
+    (let [errors (validate {:f 1} :f (is-numeric))]
+      (should= {} errors)))
+
+  (it "allows overriding the message"
+    (let [errors (validate {:f "a"} :f (is-numeric "another message"))]
+      (should= {:f ["another message"]} errors)))) 
+
