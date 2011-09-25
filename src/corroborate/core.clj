@@ -27,17 +27,23 @@
         (coll? value) (if (empty? value) message)
         :else (if (nil? value) message)))))
 
+(defn is [predicate message]
+  #(if-not (predicate (%2 %1)) message))
+
+(defn is-not [predicate message]
+  #(if (predicate (%2 %1)) message))
+
 (defn is-formatted
   ([pattern] (is-formatted pattern "is improperly formatted"))
-  ([pattern message] #(if-not (re-matches pattern (%2 %1)) message)))
+  ([pattern message] (is (partial re-matches pattern) message)))
 
 (defn is-included-in
   ([accepted-values] (is-included-in accepted-values "is not included in the list"))
-  ([accepted-values message] #(if-not (contains? accepted-values (%2 %1)) message)))
+  ([accepted-values message] (is (partial contains? accepted-values) message)))
 
 (defn is-excluded-from
   ([excluded-values] (is-excluded-from excluded-values "is reserved"))
-  ([excluded-values message] #(if (contains? excluded-values (%2 %1)) message)))
+  ([excluded-values message] (is-not (partial contains? excluded-values) message)))
 
 (defn is-confirmed-by
   ([field] (is-confirmed-by field "does not match"))
@@ -45,4 +51,4 @@
 
 (defn is-numeric
   ([] (is-numeric "is not a number"))
-  ([message] #(if-not (number? (%2 %1)) message)))
+  ([message] (is number? message)))
