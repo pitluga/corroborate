@@ -8,14 +8,17 @@ Leiningen:
 [corroborate "0.1.0"]
 
 Maven:
+```
 <dependency>
   <groupId>corroborate</groupId>
   <artifactId>corroborate</artifactId>
   <version>0.1.0</version>
 </dependency>
+```
 
 ## Usage
 
+```clojure
 (ns people
   (:use [corroborate.core]))
 
@@ -27,6 +30,7 @@ Maven:
 
 (validate-person {:first-name "Tony" :last-name "" :phone "867-5309"})
 ; {:last-name ["is required"] :phone ["is improperly formatted"]}
+```
 
 ## License
 
