@@ -35,7 +35,7 @@
 
 (defn is-formatted
   ([pattern] (is-formatted pattern "is improperly formatted"))
-  ([pattern message] (is (partial re-matches pattern) message)))
+  ([pattern message] (is #(re-matches pattern (str %1)) message)))
 
 (defn is-included-in
   ([accepted-values] (is-included-in accepted-values "is not included in the list"))
