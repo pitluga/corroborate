@@ -70,6 +70,14 @@
     (let [errors (validate {:f "abc"} :f (is-formatted #"ac"))]
       (should= {:f ["is improperly formatted"]} errors)))
 
+  (it "returns an error when the value is nil"
+    (let [errors (validate {} :f (is-formatted #"regex"))]
+      (should= {:f ["is improperly formatted"]} errors)))
+
+  (it "does not return an error when the value is nil and the regex allows blank values"
+    (let [errors (validate {} :f (is-formatted #"regex|"))]
+      (should= {} errors)))
+
   (it "allows overriding the message"
     (let [errors (validate {:f "abc"} :f (is-formatted #"ac" "bad format"))]
       (should= {:f ["bad format"]} errors))))
