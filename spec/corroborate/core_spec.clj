@@ -126,6 +126,10 @@
     (let [errors (validate {:f "a"} :f (is-numeric))]
       (should= {:f ["is not a number"]} errors))) 
 
+  (it "returns an error when the value is nil"
+    (let [errors (validate {:f nil} :f (is-numeric))]
+      (should= {:f ["is not a number"]} errors)))
+
   (it "returns nothing when the value is a number"
     (let [errors (validate {:f 1} :f (is-numeric))]
       (should= {} errors)))
@@ -134,3 +138,11 @@
     (let [errors (validate {:f "a"} :f (is-numeric "another message"))]
       (should= {:f ["another message"]} errors)))) 
 
+(describe "allow-nil"
+  (it "does not return an error when the value is nil"
+    (let [errors (validate {:f nil} :f (allow-nil (is-numeric)))]
+      (should= {} errors)))
+
+  (it "runs the underlying validation when the value is not nil"
+    (let [errors (validate {:f "a"} :f (allow-nil (is-numeric)))]
+      (should= {:f ["is not a number"] } errors))))
