@@ -53,7 +53,15 @@
   ([] (is-numeric "is not a number"))
   ([message] (is number? message)))
 
-(defmacro allow-nil [validation]
+(defmacro only-if [pred validation]
   `(fn [topic# field#]
-    (if-not (nil? (field# topic#))
+    (if (~pred topic# field#)
       (~validation topic# field#))))
+
+(defmacro only-if-not [pred validation]
+  `(fn [topic# field#]
+    (if-not (~pred topic# field#)
+      (~validation topic# field#))))
+
+(defn allow-nil [validation]
+  (only-if-not #(nil? (%2 %1)) validation))

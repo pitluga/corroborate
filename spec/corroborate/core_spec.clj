@@ -138,6 +138,24 @@
     (let [errors (validate {:f "a"} :f (is-numeric "another message"))]
       (should= {:f ["another message"]} errors)))) 
 
+(describe "only-if"
+  (it "does not run the validation if guard predicate is false"
+    (let [errors (validate {:f nil} :f (only-if (fn [_ _] false) (is-required)))]
+      (should= {} errors)))
+
+  (it "runs the validation if the guard is true"
+    (let [errors (validate {:f nil} :f (only-if (fn [_ _] true) (is-required)))]
+      (should= {:f ["is required"] } errors))))
+
+(describe "only-if-not"
+  (it "does not run the validation if guard predicate is true"
+    (let [errors (validate {:f nil} :f (only-if-not (fn [_ _] true) (is-required)))]
+      (should= {} errors)))
+
+  (it "runs the validation if the guard is false"
+    (let [errors (validate {:f nil} :f (only-if-not (fn [_ _] false) (is-required)))]
+      (should= {:f ["is required"] } errors))))
+
 (describe "allow-nil"
   (it "does not return an error when the value is nil"
     (let [errors (validate {:f nil} :f (allow-nil (is-numeric)))]
