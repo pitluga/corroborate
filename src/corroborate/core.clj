@@ -11,6 +11,10 @@
       errors
       (recur more (validate-field topic field validations errors)))))
 
+(defmacro defvalidator [name & fields-with-validations]
+  `(defn ~name [topic#]
+     (validate topic# ~@fields-with-validations)))
+
 (defn validate-staged [model & validators]
   (loop [[validator & more] validators]
     (if (nil? validator)

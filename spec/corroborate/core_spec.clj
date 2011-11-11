@@ -16,6 +16,14 @@
     (let [errors (validate {} :a [(is-required) (is-required)])]
       (should= {:a ["is required" "is required"] } errors))))
 
+(defvalidator validate-foo
+  :bar (is-required)
+  :baz (is-required))
+
+(describe "defvalidator"
+  (it "creates a method that does the validations"
+    (should= {:bar ["is required"] :baz ["is required"]} (validate-foo {}))))
+
 (describe "validate-staged"
   (let [stage1 (fn [model] (validate model :f (is-required)))
         stage2 (fn [model] (validate model :f (is-numeric)))]

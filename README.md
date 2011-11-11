@@ -24,11 +24,10 @@ Maven:
 (ns people
   (:use [corroborate.core]))
 
-(defn validate-person [person]
-  (validate person
-    :first-name (is-required)
-    :last-name (is-required)
-    :phone (is-formatted #"\(\d{3}\) \d{3}-\d{4}")))
+(defvalidator validate-person
+  :first-name (is-required)
+  :last-name (is-required)
+  :phone (is-formatted #"\(\d{3}\) \d{3}-\d{4}")))
 
 (validate-person {:first-name "Tony" :last-name "" :phone "867-5309"})
 ; {:last-name ["is required"] :phone ["is improperly formatted"]}
