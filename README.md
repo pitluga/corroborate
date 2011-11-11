@@ -7,7 +7,7 @@ A dead-simple validations library for Clojure.
 Leiningen:
 
 ```clojure
-[corroborate "0.1.0"]
+[corroborate "0.2.0"]
 ```
 
 Maven:
@@ -15,7 +15,7 @@ Maven:
     <dependency>
       <groupId>corroborate</groupId>
       <artifactId>corroborate</artifactId>
-      <version>0.1.0</version>
+      <version>0.2.0</version>
     </dependency>
 
 ## Usage
