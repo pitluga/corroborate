@@ -1,5 +1,5 @@
 (ns corroborate.core
-  (:use [clojure.contrib.string :only [blank?]]))
+  (:use [clojure.string :only [blank?]]))
 
 (defn- validate-field [topic field validations errors]
   (let [field-errors (remove nil? (map #(% topic field) (flatten [validations])))]
